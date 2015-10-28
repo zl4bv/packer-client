@@ -1,5 +1,5 @@
-require "packer/version"
+require 'mixlib/shellout'
+require 'os'
 
-module Packer
-  # Your code goes here...
-end
+require 'packer/client'
+require 'packer/version'
