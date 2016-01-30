@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{A Ruby client for HashiCorp's Packer tool.}
   spec.description   = %q{A Ruby client for HashiCorp's Packer tool.}
   spec.homepage      = 'https://github.com/zl4bv/packer-ruby'
+  spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'
