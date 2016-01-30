@@ -25,8 +25,9 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
+    # @return [Packer::Command::Build]
     def build(template, options = {})
-      args = ['build']
+      args = ['build', '-machine-readable']
       args << '-force' if options.key?(:force)
       args << "-except=#{options[:except].join(',')}" if options.key?(:except)
       args << "-only=#{options[:only].join(',')}" if options.key?(:only)
@@ -86,7 +87,12 @@ module Packer
     # @option options [Boolean] :validate if true (default), validates the
     #   fixed template
     def fix(template, options = {})
-      fail NotImplementedError
+      args = ['fix']
+      args << "-validate=#{options[:validate]}" if options.key?(:validate)
+      args << template
+
+      # TODO: Check exit code when validate option is set to true
+      Packer::Command::Fix.new(command(args))
     end
 
     # Excutes +packer inspect+
@@ -96,10 +102,11 @@ module Packer
     # basic syntax by necessity).
     #
     # @param [String,Packer::Template] template the Packer template
-    # @param [Hash] options
-    # @option options
-    def packer_inspect(template, options = {})
-      fail NotImplementedError
+    # @return [Packer::Command::Inspect]
+    def packer_inspect(template)
+      args = ['inspect', '-machine-readable', template]
+
+      Packer::Command::Inspect.new(command(args))
     end
 
     # Executes +packer push+.
@@ -126,7 +133,18 @@ module Packer
     # @option options [String] :var_file path to JSON file containing user
     #   variables
     def push(template, options = {})
-      fail NotImplementedError
+      args = ['push']
+      args << "-message=#{options[:message]}" if options.key?(:message)
+      args << "-name=#{options[:name]}" if options.key?(:name)
+      args << "-token=#{options[:token]}" if options.key?(:token)
+      args << "-var-file=#{options[:var_file]}" if options.key?(:var_file)
+
+      vars = options[:vars] || {}
+      vars.each { |key, val| args << "-var '#{key}=#{val}'" }
+
+      args << template
+
+      Packer::Command::Push.new(command(args))
     end
 
     # Executes +packer validate+
@@ -149,10 +167,24 @@ module Packer
     # @option options [String] :var_file path to JSON file containing user
     #   variables
     def validate(template, options = {})
-      fail NotImplementedError
+      args = ['validate']
+      args << '-syntax-only' if options.key?(:syntax_only)
+      args << "-except=#{options[:except].join(',')}" if options.key?(:except)
+      args << "-only=#{options[:only].join(',')}" if options.key?(:only)
+      args << "-var-file=#{options[:var_file]}" if options.key?(:var_file)
+
+      vars = options[:vars] || {}
+      vars.each { |key, val| args << "-var '#{key}=#{val}'" }
+
+      args << template
+
+      # TODO: Check exit code
+      Packer::Command::Validate.new(command(args))
     end
 
     # Executes +packer version+
+    #
+    # @return [Packer::Command::Version]
     def version
       Packer::Command::Version.new(command(['version', '-machine-readable']))
     end

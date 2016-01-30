@@ -5,7 +5,7 @@ describe Packer::Client do
     context 'when no options given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', 'template.json'])
+          .with(['build', '-machine-readable', 'template.json'])
 
         subject.build('template.json')
       end
@@ -14,7 +14,7 @@ describe Packer::Client do
     context 'when force option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-force', 'template.json'])
+          .with(['build', '-machine-readable', '-force', 'template.json'])
 
         subject.build('template.json', force: true)
       end
@@ -23,7 +23,7 @@ describe Packer::Client do
     context 'when except option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-except=foo,bar', 'template.json'])
+          .with(['build', '-machine-readable', '-except=foo,bar', 'template.json'])
 
         subject.build('template.json', except: %w(foo bar))
       end
@@ -32,7 +32,7 @@ describe Packer::Client do
     context 'when only option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-only=foo,bar', 'template.json'])
+          .with(['build', '-machine-readable', '-only=foo,bar', 'template.json'])
 
         subject.build('template.json', only: %w(foo bar))
       end
@@ -41,7 +41,7 @@ describe Packer::Client do
     context 'when parallel option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-parallel=false', 'template.json'])
+          .with(['build', '-machine-readable', '-parallel=false', 'template.json'])
 
         subject.build('template.json', parallel: false)
       end
@@ -50,7 +50,7 @@ describe Packer::Client do
     context 'when var_file option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-var-file=vars.json', 'template.json'])
+          .with(['build', '-machine-readable', '-var-file=vars.json', 'template.json'])
 
         subject.build('template.json', var_file: 'vars.json')
       end
@@ -59,7 +59,7 @@ describe Packer::Client do
     context 'when vars option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', "-var 'foo=bar'", 'template.json'])
+          .with(['build', '-machine-readable', "-var 'foo=bar'", 'template.json'])
 
         subject.build('template.json', vars: { 'foo' => 'bar' })
       end
@@ -132,19 +132,144 @@ describe Packer::Client do
   end
 
   describe '#fix' do
-    it 'returns the fix output'
+    context 'when no options given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['fix', 'template.json'])
+
+        subject.fix('template.json')
+      end
+    end
+
+    context 'when validate option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['fix', '-validate=true', 'template.json'])
+
+        subject.fix('template.json', validate: true)
+      end
+    end
   end
 
   describe '#packer_inspect' do
-    it 'returns the inspect output'
+    it 'executes Packer with correct arguments' do
+      expect(subject).to receive(:command)
+        .with(['inspect', '-machine-readable', 'template.json'])
+
+      subject.packer_inspect('template.json')
+    end
   end
 
   describe '#push' do
-    it 'returns the push output'
+    context 'when no options given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', 'template.json'])
+
+        subject.push('template.json')
+      end
+    end
+
+    context 'when message option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', '-message=foo', 'template.json'])
+
+        subject.push('template.json', message: 'foo')
+      end
+    end
+
+    context 'when name option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', '-name=foo/bar', 'template.json'])
+
+        subject.push('template.json', name: 'foo/bar')
+      end
+    end
+
+    context 'when token option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', '-token=example', 'template.json'])
+
+        subject.push('template.json', token: 'example')
+      end
+    end
+
+    context 'when var_file option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', '-var-file=vars.json', 'template.json'])
+
+        subject.push('template.json', var_file: 'vars.json')
+      end
+    end
+
+    context 'when vars option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['push', "-var 'foo=bar'", 'template.json'])
+
+        subject.push('template.json', vars: { 'foo' => 'bar' })
+      end
+    end
   end
 
   describe '#validate' do
-    it 'returns the validate output'
+    context 'when no options given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', 'template.json'])
+
+        subject.validate('template.json')
+      end
+    end
+
+    context 'when syntax_only option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', '-syntax-only', 'template.json'])
+
+        subject.validate('template.json', syntax_only: true)
+      end
+    end
+
+    context 'when except option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', '-except=foo,bar', 'template.json'])
+
+        subject.validate('template.json', except: %w(foo bar))
+      end
+    end
+
+    context 'when only option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', '-only=foo,bar', 'template.json'])
+
+        subject.validate('template.json', only: %w(foo bar))
+      end
+    end
+
+    context 'when var_file option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', '-var-file=vars.json', 'template.json'])
+
+        subject.validate('template.json', var_file: 'vars.json')
+      end
+    end
+
+    context 'when vars option given' do
+      it 'executes Packer with correct arguments' do
+        expect(subject).to receive(:command)
+          .with(['validate', "-var 'foo=bar'", 'template.json'])
+
+        subject.validate('template.json', vars: { 'foo' => 'bar' })
+      end
+    end
   end
 
   describe '#version' do
