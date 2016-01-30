@@ -1,5 +1,7 @@
 # Packer
 
+[![Build Status](https://travis-ci.org/zl4bv/packer-ruby.svg?branch=master)](https://travis-ci.org/zl4bv/packer-ruby)
+
 A ruby client for HashiCorp's [Packer](https://www.packer.io).
 
 ## Installation
