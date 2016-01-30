@@ -3,6 +3,7 @@ require 'mixlib/shellout'
 require 'os'
 
 require 'packer/command/base'
+require 'packer/command/machine_readable'
 require 'packer/command/build'
 require 'packer/command/fix'
 require 'packer/command/inspect'

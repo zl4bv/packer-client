@@ -1,7 +1,7 @@
 module Packer
   module Command
     # Represents the output from +packer build+.
-    class Build < Base
+    class Build < MachineReadable
       # Information about an artifact of the targeted item.
       #
       # @return [Array<Packer::Message::Artifact]

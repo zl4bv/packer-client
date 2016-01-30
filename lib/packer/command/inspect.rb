@@ -1,7 +1,7 @@
 module Packer
   module Command
     # Represents the output from +packer inspect+.
-    class Inspect < Base
+    class Inspect < MachineReadable
       # User variables defined within the template.
       #
       # @return [Array<Packer::Message::TemplateVariable]
