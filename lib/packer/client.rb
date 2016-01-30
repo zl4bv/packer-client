@@ -178,7 +178,6 @@ module Packer
 
       args << template
 
-      # TODO: Check exit code
       Packer::Command::Validate.new(command(args))
     end
 

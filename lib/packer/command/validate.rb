@@ -2,7 +2,9 @@ module Packer
   module Command
     # Represents the output from +packer validate+.
     class Validate < Base
-      # TODO Determine if output from validate command needs additional processing
+      def valid?
+        @output.exitstatus == 0
+      end
     end
   end
 end
