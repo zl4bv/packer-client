@@ -7,24 +7,24 @@ module Packer
       #
       # @return [String]
       def version
-        msgs = messages.select { |msg| msg.type == 'version' }
-        msgs.first.data.first
+        msgs = select_messages('version')
+        msgs[0][3]
       end
 
       # The SHA1 of the Git commit that build this version of Packer.
       #
       # @return [String]
       def version_commit
-        msgs = messages.select { |msg| msg.type == 'version-commit' }
-        msgs.first.data.first
+        msgs = select_messages('version-commit')
+        msgs[0][3]
       end
 
       # The prerelease tag (if any) for the running version of packer.
       #
       # @return [String]
       def version_prerelease
-        msgs = messages.select { |msg| msg.type == 'version-prelease' }
-        msgs.first.data.first
+        msgs = select_messages('version-prelease')
+        msgs[0][3]
       end
     end
   end

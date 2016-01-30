@@ -1,16 +1,18 @@
 require 'spec_helper'
 
 describe Packer::Command::Base do
-  describe '#messages' do
-    let(:line1) { 'ts1,tgt1,type1,data1' }
-    let(:line2) { 'ts2,tgt2,type2,data2' }
+  describe '#ui_messages' do
+    let(:output) { 'timestamp,,ui,say,example' }
 
-    subject { described_class.new(shellout_double("#{line1}\n#{line2}")) }
+    subject { described_class.new(shellout_double(output)) }
 
-    it 'returns an array of machine-readable messages' do
-      expect(subject.messages.length).to eq(2)
-      expect(subject.messages[0].line).to eq(line1)
-      expect(subject.messages[1].line).to eq(line2)
+    it 'returns an array of UI messages' do
+      expect(subject.ui_messages.length).to eq(1)
+      expect(subject.ui_messages[0].timestamp).to eq('timestamp')
+      expect(subject.ui_messages[0].target).to be_nil
+      expect(subject.ui_messages[0].type).to eq('ui')
+      expect(subject.ui_messages[0].ui_message_type).to eq('say')
+      expect(subject.ui_messages[0].output).to eq('example')
     end
   end
 

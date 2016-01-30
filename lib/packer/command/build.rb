@@ -2,24 +2,47 @@ module Packer
   module Command
     # Represents the output from +packer build+.
     class Build < Base
+      # Information about an artifact of the targeted item.
+      #
+      # @return [Array<Packer::Message::Artifact]
       def artifacts
-        # FIXME: Return actual artifact objects
-        messages.select { |msg| msg.type == 'artifact' }
+        afcts = []
+
+        afct ||= Packer::Message::Artifact.new
+        select_messages('artifact').each do |fields|
+          afct.timestamp ||= fields[0]
+          afct.target ||= fields[1]
+          afct.type ||= 'artifact'
+          afct.artifact_index ||= fields[3]
+
+          case fields[4]
+          when 'builder-id'
+            afct.builder_id = fields[5]
+          when 'end'
+            afcts << afct
+            afct = Packer::Message::Artifact.new
+          when 'file'
+            afct.files ||= []
+            afct.files << Packer::Message::ArtifactFile.from_fields(fields)
+          when 'files-count'
+            next
+          when 'id'
+            afct.id = fields[5]
+          when 'nil'
+            afct.nil = true
+          when 'string'
+            afct.string = fields[5]
+          end
+        end
+
+        afcts
       end
 
-      def artifact_count
-        msgs = messages.select { |msg| msg.type == 'artifact-count' }
-        msgs.first.data.first
-      end
-
+      # Build errors that occurred
+      #
+      # @return [Array<Packer::Message::Error]
       def errors
-        # FIXME: Return actual error objects
-        messages.select { |msg| msg.type == 'error' }
-      end
-
-      def error_count
-        msgs = messages.select { |msg| msg.type == 'error-count' }
-        msgs.empty? ? 0 : msgs.first.data.first
+        select_messages('error').map { |fields| Packer::Message::Error.from_fields(fields) }
       end
     end
   end
