@@ -133,7 +133,7 @@ describe Packer::Client do
     it 'returns the fix output'
   end
 
-  describe '#inspect' do
+  describe '#packer_inspect' do
     it 'returns the inspect output'
   end
 

@@ -98,7 +98,7 @@ module Packer
     # @param [String,Packer::Template] template the Packer template
     # @param [Hash] options
     # @option options
-    def inspect(template, options = {})
+    def packer_inspect(template, options = {})
       fail NotImplementedError
     end
 
