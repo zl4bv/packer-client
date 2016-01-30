@@ -45,7 +45,7 @@ module Packer
     # @param [Array<String>] args to pass to Packer
     def command(args)
       cmd = [executable_path, args].join(' ')
-      so = Mixlib::ShellOut.new(cmd)
+      so = Mixlib::ShellOut.new(cmd, timeout: execution_timeout)
       so.run_command
     end
 

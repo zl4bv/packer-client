@@ -74,7 +74,9 @@ describe Packer::Client do
     end
 
     it 'executes packer with the given args' do
-      expect(Mixlib::ShellOut).to receive(:new).with('exe cmd').and_return(shellout)
+      expect(Mixlib::ShellOut).to receive(:new)
+        .with('exe cmd', timeout: 7200)
+        .and_return(shellout)
       expect(shellout).to receive(:run_command)
 
       subject.command(['cmd'])
