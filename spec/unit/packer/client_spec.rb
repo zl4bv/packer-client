@@ -132,22 +132,11 @@ describe Packer::Client do
   end
 
   describe '#fix' do
-    context 'when no options given' do
-      it 'executes Packer with correct arguments' do
-        expect(subject).to receive(:command)
-          .with(['fix', 'template.json'])
+    it 'executes Packer with correct arguments' do
+      expect(subject).to receive(:command)
+        .with(['fix', 'template.json'])
 
-        subject.fix('template.json')
-      end
-    end
-
-    context 'when validate option given' do
-      it 'executes Packer with correct arguments' do
-        expect(subject).to receive(:command)
-          .with(['fix', '-validate=true', 'template.json'])
-
-        subject.fix('template.json', validate: true)
-      end
+      subject.fix('template.json')
     end
   end
 

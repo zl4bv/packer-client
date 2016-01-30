@@ -83,16 +83,9 @@ module Packer
     # error.
     #
     # @param [String,Packer::Template] template the Packer template
-    # @param [Hash] options
-    # @option options [Boolean] :validate if true (default), validates the
-    #   fixed template
-    def fix(template, options = {})
-      args = ['fix']
-      args << "-validate=#{options[:validate]}" if options.key?(:validate)
-      args << template
-
-      # TODO: Check exit code when validate option is set to true
-      Packer::Command::Fix.new(command(args))
+    # @return [Packer::Command::Fix]
+    def fix(template)
+      Packer::Command::Fix.new(command(['fix', template]))
     end
 
     # Excutes +packer inspect+
@@ -132,6 +125,7 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
+    # @return [Packer::Command::Push]
     def push(template, options = {})
       args = ['push']
       args << "-message=#{options[:message]}" if options.key?(:message)
@@ -166,6 +160,7 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
+    # @return [Packer::Command::Validate]
     def validate(template, options = {})
       args = ['validate']
       args << '-syntax-only' if options.key?(:syntax_only)
