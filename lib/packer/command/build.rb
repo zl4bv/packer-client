@@ -1,31 +1,25 @@
 module Packer
   module Command
     # Represents the output from +packer build+.
-    class Build
-      # @param [Mixlib::ShellOut] output from the build command
-      def initialize(output)
-        @output = output
+    class Build < Base
+      def artifacts
+        # FIXME: Return actual artifact objects
+        messages.select { |msg| msg.type == 'artifact' }
       end
 
-      # Returns the machine-readable messages from the build output
-      #
-      # @return [Array<Packer::Message>]
-      def messages
-        @messages ||= stdout.split("\n").map { |line| Message.new(line) }
+      def artifact_count
+        msgs = messages.select { |msg| msg.type == 'artifact-count' }
+        msgs.first.data.first
       end
 
-      # Returns the raw standard error output
-      #
-      # @return [String]
-      def stderr
-        @output.stderr
+      def errors
+        # FIXME: Return actual error objects
+        messages.select { |msg| msg.type == 'error' }
       end
 
-      # Returns the raw standard output
-      #
-      # @return [String]
-      def stdout
-        @output.stdout
+      def error_count
+        msgs = messages.select { |msg| msg.type == 'error-count' }
+        msgs.empty? ? 0 : msgs.first.data.first
       end
     end
   end

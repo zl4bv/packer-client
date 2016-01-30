@@ -148,12 +148,11 @@ describe Packer::Client do
   end
 
   describe '#version' do
-    it 'returns the Packer version' do
+    it 'executes Packer with the correct arguments' do
       expect(subject).to receive(:command)
-        .with(['version'])
-        .and_return(shellout_double('Packer v0.0.0'))
+        .with(['version', '-machine-readable'])
 
-      expect(subject.version).to eq('0.0.0')
+      subject.version
     end
   end
 end

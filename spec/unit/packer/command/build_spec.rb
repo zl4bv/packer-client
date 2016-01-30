@@ -1,32 +1,37 @@
 require 'spec_helper'
 
+
 describe Packer::Command::Build do
-  describe '#messages' do
-    let(:line1) { 'ts1,tgt1,type1,data1' }
-    let(:line2) { 'ts2,tgt2,type2,data2' }
-
-    subject { described_class.new(shellout_double("#{line1}\n#{line2}")) }
-
-    it 'returns an array of machine-readable messages' do
-      expect(subject.messages.length).to eq(2)
-      expect(subject.messages[0].line).to eq(line1)
-      expect(subject.messages[1].line).to eq(line2)
-    end
+  let(:output) do
+    "timestamp,virtualbox-iso,artifact-count,1\n" \
+    "timestamp,virtualbox-iso,artifact,0,builder-id,mitchellh.post-processor.vagrant\n" \
+    "timestamp,,error-count,1\n" \
+    "timestamp,virtualbox-iso,error,example\n"
   end
 
-  describe '#stderr' do
-    subject { described_class.new(shellout_double('', 'example')) }
+  subject { described_class.new(shellout_double(output)) }
 
-    it 'returns the raw error output' do
-      expect(subject.stderr).to eq('example')
-    end
+  describe '#artifacts' do
+
   end
 
-  describe '#stdout' do
-    subject { described_class.new(shellout_double('example')) }
+  describe '#artifact_count' do
+    its(:artifact_count) { is_expected.to eq('1') }
+  end
 
-    it 'returns the raw standard output' do
-      expect(subject.stdout).to eq('example')
+  describe '#errors' do
+
+  end
+
+  describe '#error_count' do
+    context 'when there is 1 error' do
+      its(:error_count) { is_expected.to eq('1') }
+    end
+
+    context 'when there are no errors' do
+      let(:output) { "timestamp,,error-count,0\n" }
+
+      its(:error_count) { is_expected.to eq('0') }
     end
   end
 end

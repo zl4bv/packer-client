@@ -154,8 +154,7 @@ module Packer
 
     # Executes +packer version+
     def version
-      result = command(['version'])
-      result.stdout.match(/^Packer v(.*)$/)[1]
+      Packer::Command::Version.new(command(['version', '-machine-readable']))
     end
   end
 end
