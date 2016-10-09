@@ -24,10 +24,69 @@ Or install it yourself as:
 
 ```ruby
 client = Packer::Client.new
+
+# Override path to Packer executable
 client.executable_path = 'C:\HashiCorp\Packer\packer.exe'
+
+# Override maximum time that Packer may execute for
 client.execution_timeout = 7200
-output = client.build('template.json')
-output.messages #=> Array<Packer::Message>
+```
+
+### Build: Build image(s) from template
+
+```ruby
+client.build('template.json')
+
+# Get build artifacts
+client.build('template.json').artifacts
+```
+
+### Fix: Fix template
+
+```ruby
+# Get the fixed template JSON
+client.fix('template.json').json
+
+# Determine if template is valid
+client.fix('template.json').valid?
+```
+
+### Inspect: See components of a template
+
+```ruby
+# Get user variables
+client.inspect_template('template.json').template_variables
+
+# Get builders
+client.inspect_template('template.json').template_builders
+
+# Get provisioners
+client.inspect_template('template.json').template_provisioners
+```
+
+### Push: Push a template to a Packer build service
+
+```ruby
+client.push('template.json')
+```
+
+### Validate: Check that a template is valid
+
+```ruby
+client.validate('template.json').valid?
+```
+
+### Version: Get the Packer version
+
+```ruby
+# Get version
+client.version.version
+
+# Get version commit
+client.version.version_commit
+
+# Get prerelease version
+client.version.version_prerelease
 ```
 
 ## Contributing
