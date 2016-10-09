@@ -1,6 +1,8 @@
 module Packer
   module Message
+    # Represents an error message
     class Error < Base
+      # The error message
       attr_accessor :error
 
       # @api private

@@ -1,8 +1,11 @@
 module Packer
   module Message
+    # Represents a message destined for a UI
     class Ui < Base
+      # The type of UI message
       attr_accessor :ui_message_type
 
+      # The string output to be displayed by the UI
       attr_accessor :output
 
       # @api private

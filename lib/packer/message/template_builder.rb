@@ -1,8 +1,13 @@
 module Packer
   module Message
+    # Message representing a builder defined within the template
+    #
+    # @see https://www.packer.io/docs/machine-readable/command-inspect.html
     class TemplateBuilder < Base
+      # The name of the builder
       attr_accessor :name
 
+      # The type of the builder
       attr_accessor :builder_type
 
       # @api private

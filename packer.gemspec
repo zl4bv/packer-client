@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Ben Vidulich']
   spec.email         = ['ben@vidulich.co.nz']
 
-  spec.summary       = %q{A Ruby client for HashiCorp's Packer tool.}
-  spec.description   = %q{A Ruby client for HashiCorp's Packer tool.}
+  spec.summary       = "A Ruby client for HashiCorp's Packer tool."
+  spec.description   = "A Ruby client for HashiCorp's Packer tool."
   spec.homepage      = 'https://github.com/zl4bv/packer-ruby'
   spec.license       = 'MIT'
 

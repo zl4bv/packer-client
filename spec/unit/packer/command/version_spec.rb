@@ -27,7 +27,7 @@ describe Packer::Command::Version do
     context 'when there is not a prerelease' do
       let(:output) { "timestamp,,version-prelease,\n" }
 
-      its(:version_prerelease) { is_expected.to be_nil}
+      its(:version_prerelease) { is_expected.to be_nil }
     end
   end
 end

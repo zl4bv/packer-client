@@ -1,6 +1,8 @@
 module Packer
   module Command
     # Represents the output from +packer fix+.
+    #
+    # @see https://www.packer.io/docs/command-line/fix.html
     class Fix < Base
       # JSON representing the fixed template or +nil+ if the fixing fails or the
       # template is not valid.
@@ -16,7 +18,7 @@ module Packer
       #
       # @return [Boolean]
       def valid?
-        @output.exitstatus == 0
+        @output.exitstatus.zero?
       end
     end
   end

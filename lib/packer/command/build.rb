@@ -1,6 +1,8 @@
 module Packer
   module Command
     # Represents the output from +packer build+.
+    #
+    # @see https://www.packer.io/docs/command-line/build.html
     class Build < MachineReadable
       # Information about an artifact of the targeted item.
       #

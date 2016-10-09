@@ -1,6 +1,8 @@
 module Packer
   module Command
     # Represents the output from +packer version+.
+    #
+    # @see https://www.packer.io/docs/machine-readable/command-version.html
     class Version < MachineReadable
       # The version of Packer running, only including the major, minor, and
       # patch versions.

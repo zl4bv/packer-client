@@ -1,8 +1,11 @@
 module Packer
   module Message
+    # Message representing a file associated with an artifact
     class ArtifactFile < Base
+      # The zero-based index of the file
       attr_accessor :file_index
 
+      # The filename
       attr_accessor :filename
 
       # @api private

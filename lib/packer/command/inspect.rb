@@ -1,6 +1,8 @@
 module Packer
   module Command
     # Represents the output from +packer inspect+.
+    #
+    # @see https://www.packer.io/docs/command-line/inspect.html
     class Inspect < MachineReadable
       # User variables defined within the template.
       #

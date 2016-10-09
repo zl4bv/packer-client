@@ -1,6 +1,10 @@
 module Packer
   module Message
+    # Message representing a provisioner defined within the template
+    #
+    # @see https://www.packer.io/docs/machine-readable/command-inspect.html
     class TemplateProvisioner < Base
+      # The name/type of the provisioner
       attr_accessor :name
 
       # @api private

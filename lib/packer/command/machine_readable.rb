@@ -1,6 +1,6 @@
 module Packer
   module Command
-    # Represents commands to produce machine-readable output
+    # Represents commands that produce machine-readable output
     class MachineReadable < Base
       # Outputs that would have normally gone to the console if Packer were
       # running in human-readable mode.

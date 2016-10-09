@@ -1,4 +1,5 @@
 module Packer
+  # Ruby client for HashiCorp Packer.
   class Client
     # Sets the path to the Packer executable.
     attr_writer :executable_path

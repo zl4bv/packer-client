@@ -1,10 +1,16 @@
 module Packer
   module Message
+    # Message representing a user variable defined within the template
+    #
+    # @see https://www.packer.io/docs/machine-readable/command-inspect.html
     class TemplateVariable < Base
+      # The name of the variable
       attr_accessor :name
 
+      # The default value of the variable
       attr_accessor :default
 
+      # If non-zero, then this variable is required
       attr_accessor :required
 
       # @api private
