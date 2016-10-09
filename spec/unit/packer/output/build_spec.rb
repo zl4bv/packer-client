@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Build do
+describe Packer::Output::Build do
   let(:output) do
     "timestamp,virtualbox-iso,artifact-count,1\n" \
     "timestamp,virtualbox-iso,artifact,0,builder-id,mitchellh.post-processor.vagrant\n" \

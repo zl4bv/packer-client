@@ -1,5 +1,5 @@
 module Packer
-  module Command
+  module Output
     # Represents the output from +packer push+.
     #
     # @see https://www.packer.io/docs/command-line/push.html

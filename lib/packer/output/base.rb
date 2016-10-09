@@ -1,6 +1,6 @@
 module Packer
-  module Command
-    # Base class for all Packer commands
+  module Output
+    # Base class for output from all Packer commands
     class Base
       # @param [Mixlib::ShellOut] output from the build command
       def initialize(output)

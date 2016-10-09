@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Validate do
+describe Packer::Output::Validate do
   subject { described_class.new(shellout_double('', '', exitstatus)) }
 
   describe '#valid?' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Inspect do
+describe Packer::Output::Inspect do
   let(:output) do
     "timestamp,,template-variable,foo,bar,0\n" \
     "timestamp,,template-builder,virtualbox-iso,virtualbox-iso\n" \

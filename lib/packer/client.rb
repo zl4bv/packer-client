@@ -26,7 +26,7 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
-    # @return [Packer::Command::Build]
+    # @return [Packer::Output::Build]
     def build(template, options = {})
       args = ['build', '-machine-readable']
       args << '-force' if options.key?(:force)
@@ -40,7 +40,7 @@ module Packer
 
       args << template
 
-      Packer::Command::Build.new(command(args))
+      Packer::Output::Build.new(command(args))
     end
 
     # @api private
@@ -84,9 +84,9 @@ module Packer
     # error.
     #
     # @param [String,Packer::Template] template the Packer template
-    # @return [Packer::Command::Fix]
+    # @return [Packer::Output::Fix]
     def fix(template)
-      Packer::Command::Fix.new(command(['fix', template]))
+      Packer::Output::Fix.new(command(['fix', template]))
     end
 
     # Excutes +packer inspect+
@@ -96,11 +96,11 @@ module Packer
     # basic syntax by necessity).
     #
     # @param [String,Packer::Template] template the Packer template
-    # @return [Packer::Command::Inspect]
+    # @return [Packer::Output::Inspect]
     def packer_inspect(template)
       args = ['inspect', '-machine-readable', template]
 
-      Packer::Command::Inspect.new(command(args))
+      Packer::Output::Inspect.new(command(args))
     end
 
     # Executes +packer push+.
@@ -126,7 +126,7 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
-    # @return [Packer::Command::Push]
+    # @return [Packer::Output::Push]
     def push(template, options = {})
       args = ['push']
       args << "-message=#{options[:message]}" if options.key?(:message)
@@ -139,7 +139,7 @@ module Packer
 
       args << template
 
-      Packer::Command::Push.new(command(args))
+      Packer::Output::Push.new(command(args))
     end
 
     # Executes +packer validate+
@@ -161,7 +161,7 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
-    # @return [Packer::Command::Validate]
+    # @return [Packer::Output::Validate]
     def validate(template, options = {})
       args = ['validate']
       args << '-syntax-only' if options.key?(:syntax_only)
@@ -174,14 +174,14 @@ module Packer
 
       args << template
 
-      Packer::Command::Validate.new(command(args))
+      Packer::Output::Validate.new(command(args))
     end
 
     # Executes +packer version+
     #
-    # @return [Packer::Command::Version]
+    # @return [Packer::Output::Version]
     def version
-      Packer::Command::Version.new(command(['version', '-machine-readable']))
+      Packer::Output::Version.new(command(['version', '-machine-readable']))
     end
   end
 end

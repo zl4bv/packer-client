@@ -1,5 +1,5 @@
 module Packer
-  module Command
+  module Output
     # Represents commands that produce machine-readable output
     class MachineReadable < Base
       # Outputs that would have normally gone to the console if Packer were

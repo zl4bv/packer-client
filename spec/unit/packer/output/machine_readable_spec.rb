@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::MachineReadable do
+describe Packer::Output::MachineReadable do
   describe '#ui_messages' do
     let(:output) { 'timestamp,,ui,say,example' }
 

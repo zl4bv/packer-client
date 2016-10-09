@@ -1,5 +1,5 @@
 module Packer
-  module Command
+  module Output
     # Represents the output from +packer version+.
     #
     # @see https://www.packer.io/docs/machine-readable/command-version.html

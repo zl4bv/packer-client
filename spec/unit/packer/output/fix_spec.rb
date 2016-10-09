@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Fix do
+describe Packer::Output::Fix do
   let(:exitstatus) { 0 }
   let(:output) { 'JSON output' }
 

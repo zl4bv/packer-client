@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Version do
+describe Packer::Output::Version do
   let(:output) do
     "timestamp,,version,0.0.0\n" \
     "timestamp,,version-prelease,alpha\n" \

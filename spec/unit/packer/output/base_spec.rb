@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Packer::Command::Base do
+describe Packer::Output::Base do
   describe '#stderr' do
     subject { described_class.new(shellout_double('', 'example')) }
 
