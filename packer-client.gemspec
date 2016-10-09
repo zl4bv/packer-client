@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'packer/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'packer'
+  spec.name          = 'packer-client'
   spec.version       = Packer::VERSION
   spec.authors       = ['Ben Vidulich']
   spec.email         = ['ben@vidulich.co.nz']

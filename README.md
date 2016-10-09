@@ -1,4 +1,4 @@
-# Packer
+# Packer Client
 
 [![Build Status](https://travis-ci.org/zl4bv/packer-ruby.svg?branch=master)](https://travis-ci.org/zl4bv/packer-ruby)
 
@@ -9,7 +9,7 @@ A ruby client for HashiCorp's [Packer](https://www.packer.io) tool.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'packer'
+gem 'packer-client'
 ```
 
 And then execute:
@@ -18,11 +18,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install packer
+    $ gem install packer-client
 
 ## Usage
 
 ```ruby
+require 'packer'
 client = Packer::Client.new
 
 # Override path to Packer executable
