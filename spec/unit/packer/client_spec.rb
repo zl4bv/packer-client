@@ -140,12 +140,12 @@ describe Packer::Client do
     end
   end
 
-  describe '#packer_inspect' do
+  describe '#inspect_template' do
     it 'executes Packer with correct arguments' do
       expect(subject).to receive(:command)
         .with(['inspect', '-machine-readable', 'template.json'])
 
-      subject.packer_inspect('template.json')
+      subject.inspect_template('template.json')
     end
   end
 

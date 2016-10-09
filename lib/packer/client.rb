@@ -97,7 +97,7 @@ module Packer
     #
     # @param [String,Packer::Template] template the Packer template
     # @return [Packer::Output::Inspect]
-    def packer_inspect(template)
+    def inspect_template(template)
       args = ['inspect', '-machine-readable', template]
 
       Packer::Output::Inspect.new(command(args))
