@@ -11,6 +11,19 @@ end
 desc 'Run all style checks'
 task style: ['style:rubocop']
 
-RSpec::Core::RakeTask.new(:spec)
+namespace :spec do
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.pattern = 'spec/unit/**/*_spec.rb'
+  end
 
-task default: [:style, :spec]
+  RSpec::Core::RakeTask.new(:integration) do |t|
+    t.pattern = 'spec/integration/**/*_spec.rb'
+  end
+
+  # Note you must have Packer installed to run the system tests
+  RSpec::Core::RakeTask.new(:system) do |t|
+    t.pattern = 'spec/system/**/*_spec.rb'
+  end
+end
+
+task default: [:style, 'spec:unit', 'spec:integration']

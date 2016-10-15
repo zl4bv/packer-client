@@ -1,6 +1,11 @@
-null output will be in this color.
-
-Build 'null' finished.
-
-==> Builds finished. The artifacts of successful builds are:
---> null: Did not export anything. This is the null builder
+1476494667,,ui,say,null output will be in this color.
+1476494667,,ui,say,
+1476494667,,ui,say,Build 'null' finished.
+1476494667,,ui,say,\n==> Builds finished. The artifacts of successful builds are:
+1476494667,null,artifact-count,1
+1476494667,null,artifact,0,builder-id,fnoeding.null
+1476494667,null,artifact,0,id,Null
+1476494667,null,artifact,0,string,Did not export anything. This is the null builder
+1476494667,null,artifact,0,files-count,0
+1476494667,null,artifact,0,end
+1476494667,,ui,say,--> null: Did not export anything. This is the null builder

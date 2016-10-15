@@ -6,7 +6,7 @@ def mock_shellout(cmd, stdout)
   allow(OS).to receive(:windows?).and_return(false)
   allow(Mixlib::ShellOut).to receive(:new).with(cmd, timeout: 7200).and_return(shellout)
   allow(shellout).to receive(:run_command).and_return(shellout)
-  allow(shellout).to receive(:stdout).and_return(stdout)
+  allow(shellout).to receive(:stdout).and_return(File.read(stdout))
 end
 
 describe 'build' do
@@ -26,7 +26,7 @@ describe 'build' do
 
     it 'returns the correct messages from the output' do
       output = subject.build(template)
-      expect(output.artifacts).to be_empty
+      expect(output.artifacts).to be_one
       expect(output.errors).to be_empty
     end
   end
