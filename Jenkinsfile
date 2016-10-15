@@ -1,13 +1,10 @@
-stage('Checkout') {
-    node {
-        checkout scm
-    }
-}
-
 stage('Install dependencies') {
     node {
+        checkout scm
         withRvm('ruby-2.3.1') {
+            sh 'bundle -v || gem install bundler'
             sh 'bundle install'
+            stash includes: 'Gemfile.lock, .bundle', name: 'bundle'
         }
     }
 }
@@ -15,7 +12,9 @@ stage('Install dependencies') {
 stage('Style checks') {
     parallel(Rubocop: {
         node {
+          checkout scm
             withRvm('ruby-2.3.1') {
+                unstash 'bundle'
                 bundle_exec 'rake style:rubocop'
             }
         }
@@ -25,19 +24,25 @@ stage('Style checks') {
 stage('Tests') {
     parallel(Unit: {
         node {
+            checkout scm
             withRvm('ruby-2.3.1') {
+                unstash 'bundle'
                 bundle_exec 'rake spec:unit'
             }
         }
     }, Integration: {
         node {
+            checkout scm
             withRvm('ruby-2.3.1') {
+                unstash 'bundle'
                 bundle_exec 'rake spec:integration'
             }
         }
     }, System: {
         node {
+            checkout scm
             withRvm('ruby-2.3.1') {
+                unstash 'bundle'
                 bundle_exec 'rake spec:system'
             }
         }
@@ -90,7 +95,7 @@ def withRvm(version, gemset, cl) {
     ]
     def path = paths.join(':')
     withEnv(["PATH=${env.PATH}:$RVM_HOME", "RVM_HOME=$RVM_HOME"]) {
-        sh "set +x; source $RVM_HOME/scripts/rvm; rvm use --create --install --binary $version@$gemset"
+        sh "#!/bin/bash\nset +x; source $RVM_HOME/scripts/rvm; rvm use --create --install --binary $version@$gemset"
     }
     withEnv([
         "PATH=$path",
@@ -100,7 +105,6 @@ def withRvm(version, gemset, cl) {
         "IRBRC=$RVM_HOME/rubies/$version/.irbrc",
         "RUBY_VERSION=$version"
     ]) {
-        sh 'rvm info'
         cl()
     }
 }
