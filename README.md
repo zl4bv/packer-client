@@ -40,6 +40,10 @@ client.build('template.json')
 
 # Get build artifacts
 client.build('template.json').artifacts
+
+# Get packer output
+result = client.build('template.json')
+puts result.stdout
 ```
 
 ### Fix: Fix template
