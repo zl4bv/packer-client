@@ -42,7 +42,7 @@ client.build('template.json')
 client.build('template.json').artifacts
 
 # Get packer output
-result = client.build('template.json)
+result = client.build('template.json')
 puts result.stdout
 ```
 
