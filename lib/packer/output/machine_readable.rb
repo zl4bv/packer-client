@@ -18,7 +18,7 @@ module Packer
       def select_messages(type)
         stdout
           .split("\n")
-          .map { |line| CSV.parse(line).first }
+          .map { |line| CSV.parse(line, quote_char: "\x00").first }
           .select { |fields| fields[2] == type }
       end
     end
