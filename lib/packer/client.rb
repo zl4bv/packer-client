@@ -40,14 +40,18 @@ module Packer
 
       args << template
 
-      Packer::Output::Build.new(command(args))
+      Packer::Output::Build.new(
+        command(args, options.fetch(:stream_output, false)))
     end
 
     # @api private
     # @param [Array<String>] args to pass to Packer
-    def command(args)
+    # @param Boolean set to true to stream output to $stdout
+    def command(args, stream = false)
       cmd = [executable_path, args].join(' ')
-      so = Mixlib::ShellOut.new(cmd, timeout: execution_timeout)
+      options = { timeout: execution_timeout }
+      options[:live_stream] = $stdout if stream
+      so = Mixlib::ShellOut.new(cmd, options)
       so.run_command
     end
 

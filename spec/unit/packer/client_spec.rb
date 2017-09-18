@@ -5,7 +5,7 @@ describe Packer::Client do
     context 'when no options given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', 'template.json'])
+          .with(['build', '-machine-readable', 'template.json'], false)
 
         subject.build('template.json')
       end
@@ -14,7 +14,7 @@ describe Packer::Client do
     context 'when force option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', '-force', 'template.json'])
+          .with(['build', '-machine-readable', '-force', 'template.json'], false)
 
         subject.build('template.json', force: true)
       end
@@ -23,7 +23,7 @@ describe Packer::Client do
     context 'when except option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', '-except=foo,bar', 'template.json'])
+          .with(['build', '-machine-readable', '-except=foo,bar', 'template.json'], false)
 
         subject.build('template.json', except: %w(foo bar))
       end
@@ -32,7 +32,7 @@ describe Packer::Client do
     context 'when only option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', '-only=foo,bar', 'template.json'])
+          .with(['build', '-machine-readable', '-only=foo,bar', 'template.json'], false)
 
         subject.build('template.json', only: %w(foo bar))
       end
@@ -41,8 +41,7 @@ describe Packer::Client do
     context 'when parallel option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', '-parallel=false', 'template.json'])
-
+          .with(['build', '-machine-readable', '-parallel=false', 'template.json'], false)
         subject.build('template.json', parallel: false)
       end
     end
@@ -50,7 +49,7 @@ describe Packer::Client do
     context 'when var_file option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', '-var-file=vars.json', 'template.json'])
+          .with(['build', '-machine-readable', '-var-file=vars.json', 'template.json'], false)
 
         subject.build('template.json', var_file: 'vars.json')
       end
@@ -59,9 +58,18 @@ describe Packer::Client do
     context 'when vars option given' do
       it 'executes Packer with correct arguments' do
         expect(subject).to receive(:command)
-          .with(['build', '-machine-readable', "-var 'foo=bar'", 'template.json'])
+          .with(['build', '-machine-readable', "-var 'foo=bar'", 'template.json'], false)
 
         subject.build('template.json', vars: { 'foo' => 'bar' })
+      end
+    end
+
+    context 'when stream_output options given' do
+      it 'executes the command with live streaming enabled' do
+        expect(subject).to receive(:command)
+          .with(['build', '-machine-readable', 'template.json'], true)
+
+        subject.build('template.json', stream_output: true)
       end
     end
   end
@@ -73,13 +81,27 @@ describe Packer::Client do
       allow(subject).to receive(:executable_path).and_return('exe')
     end
 
-    it 'executes packer with the given args' do
-      expect(Mixlib::ShellOut).to receive(:new)
-        .with('exe cmd', timeout: 7200)
-        .and_return(shellout)
-      expect(shellout).to receive(:run_command)
+    context 'streaming is disabled' do
+      it 'executes packer with the given args' do
+        expect(Mixlib::ShellOut).to receive(:new)
+          .with('exe cmd', timeout: 7200)
+          .and_return(shellout)
+        expect(shellout).to receive(:run_command)
 
-      subject.command(['cmd'])
+        subject.command(['cmd'])
+      end
+    end
+
+    context 'streaming is enabled' do
+      it 'executes packer with given args and live_stream set' do
+        expect(Mixlib::ShellOut).to receive(:new)
+          .with('exe cmd', timeout: 7200, live_stream: $stdout)
+          .and_return(shellout)
+        
+        expect(shellout).to receive(:run_command)
+
+        subject.command(['cmd'], true)
+      end
     end
   end
 
