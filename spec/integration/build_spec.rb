@@ -4,7 +4,7 @@ def mock_shellout(cmd, stdout)
   shellout = double('Mixlib::Shellout')
 
   allow(OS).to receive(:windows?).and_return(false)
-  allow(Mixlib::ShellOut).to receive(:new).with(cmd, timeout: 7200).and_return(shellout)
+  allow(Mixlib::ShellOut).to receive(:new).with(cmd, timeout: 7200, live_stream: nil).and_return(shellout)
   allow(shellout).to receive(:run_command).and_return(shellout)
   allow(shellout).to receive(:stdout).and_return(File.read(stdout))
 end
