@@ -26,6 +26,8 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
+    # @option options [IO] :live_stream an IO object to stream packer output to
+    #   in addition to saving output in the output object.
     # @return [Packer::Output::Build]
     def build(template, options = {})
       args = ['build', '-machine-readable']
@@ -40,14 +42,20 @@ module Packer
 
       args << template
 
-      Packer::Output::Build.new(command(args))
+      Packer::Output::Build.new(
+        command(args, options[:live_stream]))
     end
 
     # @api private
     # @param [Array<String>] args to pass to Packer
-    def command(args)
+    # @param Boolean set to true to stream output to $stdout
+    def command(args, stream = nil)
       cmd = [executable_path, args].join(' ')
-      so = Mixlib::ShellOut.new(cmd, timeout: execution_timeout)
+      options = { 
+        timeout: execution_timeout,
+        live_stream: stream
+      }
+      so = Mixlib::ShellOut.new(cmd, options)
       so.run_command
     end
 
@@ -126,6 +134,8 @@ module Packer
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
     #   variables
+    # @option options [IO] :live_stream an IO object to stream packer output to
+    #   in addition to saving output in the output object.
     # @return [Packer::Output::Push]
     def push(template, options = {})
       args = ['push']
@@ -139,7 +149,7 @@ module Packer
 
       args << template
 
-      Packer::Output::Push.new(command(args))
+      Packer::Output::Push.new(command(args, options[:live_stream]))
     end
 
     # Executes +packer validate+
@@ -160,6 +170,8 @@ module Packer
     # @option options [Array<String>] :only validate only these builds
     # @option options [Hash] :vars variables for templates
     # @option options [String] :var_file path to JSON file containing user
+    # @option options [IO] :live_stream an IO object to stream packer output to
+    #   in addition to saving output in the output object.
     #   variables
     # @return [Packer::Output::Validate]
     def validate(template, options = {})
@@ -174,7 +186,7 @@ module Packer
 
       args << template
 
-      Packer::Output::Validate.new(command(args))
+      Packer::Output::Validate.new(command(args, options[:live_stream]))
     end
 
     # Executes +packer version+

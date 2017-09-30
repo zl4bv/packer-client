@@ -44,6 +44,9 @@ client.build('template.json').artifacts
 # Get packer output
 result = client.build('template.json')
 puts result.stdout
+
+# Or have output streamed directly to stdout
+result = client.build('template.json', live_stream: $STDOUT)
 ```
 
 ### Fix: Fix template
